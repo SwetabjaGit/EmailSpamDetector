@@ -12,17 +12,17 @@ const emailRoutes = require("./routes/emailRoute.js");
 //connectDatabase();
 
 
-// exec('python3 utils/email_fraud_detection.py', (error, stdout, stderr) => {
-//   if (error) {
-//     console.error(`Error: ${error.message}`);
-//     return;
-//   }
-//   if (stderr) {
-//     console.error(`Stderr: ${stderr}`);
-//     return;
-//   }
-//   console.log(`Output: ${stdout}`);
-// });
+exec('pip install pandas matplotlib seaborn scikit-learn', (error, stdout, stderr) => {
+  if (error) {
+    console.error(`Error: ${error.message}`);
+    return;
+  }
+  if (stderr) {
+    console.error(`Stderr: ${stderr}`);
+    return;
+  }
+  console.log(`Output: ${stdout}`);
+});
 
 
 
