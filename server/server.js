@@ -12,7 +12,7 @@ const emailRoutes = require("./routes/emailRoute.js");
 //connectDatabase();
 
 
-exec('pip install pandas matplotlib seaborn scikit-learn', (error, stdout, stderr) => {
+exec('apt install python3-pandas python3-matplotlib python3-seaborn python3-scikit-learn', (error, stdout, stderr) => {
   if (error) {
     console.error(`Error: ${error.message}`);
     return;
