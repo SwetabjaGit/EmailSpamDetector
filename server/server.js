@@ -12,17 +12,17 @@ const emailRoutes = require("./routes/emailRoute.js");
 //connectDatabase();
 
 
-exec('sudo apt install python3-pandas python3-matplotlib python3-seaborn python3-scikit-learn', (error, stdout, stderr) => {
-  if (error) {
-    console.error(`Error: ${error.message}`);
-    return;
-  }
-  if (stderr) {
-    console.error(`Stderr: ${stderr}`);
-    return;
-  }
-  console.log(`Output: ${stdout}`);
-});
+// exec('pip install pandas matplotlib seaborn scikit-learn', (error, stdout, stderr) => {
+//   if (error) {
+//     console.error(`Error: ${error.message}`);
+//     return;
+//   }
+//   if (stderr) {
+//     console.error(`Stderr: ${stderr}`);
+//     return;
+//   }
+//   console.log(`Output: ${stdout}`);
+// });
 
 
 

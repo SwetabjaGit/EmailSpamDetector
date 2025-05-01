@@ -12,11 +12,15 @@ const isLink = (text) => {
 
 exports.getEmailDetails = async (req, res, next) => {
   try {
+
+    // READING EMAIL FROM REQUEST BODY
     const emailContent = req.body.toString('utf-8');
-    //console.log(emailContent);
+
+    // CALCULATING EMAIL LENGTH
     const emailLength = emailContent.length;
     console.log("Length", emailLength);
 
+    // CHECKING IF EMAIL CONTAINS LINKS
     let wordsList = emailContent.trim().split(/\s+/);
     //console.log(wordsList);
     let numLinks = 0;
@@ -29,13 +33,13 @@ exports.getEmailDetails = async (req, res, next) => {
       }
     });
 
+    // CHECKING IF EMAIL CONTAINS BAD WORDS
     const containsBadWords = filter.isProfane(emailContent);
-    //console.log(containsBadWords);
-
 
     const pythonInputArray = [emailLength, +containsLinks, +containsBadWords];
     console.log(pythonInputArray);
 
+    // SPAWNING PYTHON PROCESS TO GET WHETHER EMAIL IS SPAM OR NOT
     const python = spawn('python', ['utils/email_fraud_detection.py']);
     let result = '';
 
@@ -51,6 +55,7 @@ exports.getEmailDetails = async (req, res, next) => {
       if (code === 0) {
         console.log(`Result from Python: ${result.trim()}`);
 
+        // PREPARING RESPONSE JSON
         let response = {};
         response.Email_Length = emailLength;
         response.Num_Links = numLinks;
@@ -58,6 +63,7 @@ exports.getEmailDetails = async (req, res, next) => {
         response.Contains_Spam_Words = containsBadWords;
         response.Is_Fraud = result.trim() === '0' ? false : true;
 
+        // SENDING THE RESPONSE
         res.status(200).send(response);
       } else {
         console.error(`Python process exited with code ${code}`);
