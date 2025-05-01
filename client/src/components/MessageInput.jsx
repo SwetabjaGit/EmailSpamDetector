@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Send } from 'lucide-react';
 
-const MessageInput = ({ onSendMessage, disabled, assistantReply, setAssistantReply }) => {
+const MessageInput = ({ onSendMessage, onReceiveReply, disabled, assistantReply, setAssistantReply }) => {
   const [message, setMessage] = useState('');
   const inputRef = useRef(null);
 
@@ -14,8 +14,8 @@ const MessageInput = ({ onSendMessage, disabled, assistantReply, setAssistantRep
   }, [message]);
 
   useEffect(() => {
-    if (message.trim() && !disabled) {
-      onSendMessage(message);
+    if (message.trim()) {
+      onReceiveReply();
       setMessage('');
       if (inputRef.current) {
         inputRef.current.style.height = 'auto';
@@ -25,7 +25,7 @@ const MessageInput = ({ onSendMessage, disabled, assistantReply, setAssistantRep
 
   const checkIfEmailIsSpam = async () => {
     try {
-      const res = await fetch('http://localhost:8080/api/email/getdetails', {
+      const res = await fetch('https://emailspamdetector-backend.onrender.com/api/email/getdetails', {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain',
@@ -39,10 +39,19 @@ const MessageInput = ({ onSendMessage, disabled, assistantReply, setAssistantRep
     } catch (err) {
       console.error('Error:', err);
     }
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (message.trim() && !disabled) {
+      onSendMessage(message);
+      //setMessage('');
+      if (inputRef.current) {
+        inputRef.current.style.height = 'auto';
+      }
+    }
+
     checkIfEmailIsSpam();
   };
 
@@ -82,6 +91,7 @@ const MessageInput = ({ onSendMessage, disabled, assistantReply, setAssistantRep
 
 MessageInput.propTypes = {
   onSendMessage: PropTypes.func.isRequired,
+  onReceiveReply: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
   assistantReply: PropTypes.object.isRequired,
   setAssistantReply: PropTypes.func.isRequired,

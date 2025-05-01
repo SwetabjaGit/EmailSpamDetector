@@ -53,19 +53,32 @@ ${assistantReply.Is_Fraud ? "🔴 This email is likely FRAUD (Spam)!" : "🟢 Th
     setMessages(prev => [...prev, newUserMessage]);
     setIsTyping(true);
     
-    setTimeout(() => {
-      setIsTyping(false);
+    // setTimeout(() => {
+    //   setIsTyping(false);
       
-      const newAssistantMessage = {
-        id: `assistant-${Date.now()}`,
-        content: createAssistantReplyText(),
-        sender: 'assistant',
-        timestamp: new Date(),
-      };
+    //   const newAssistantMessage = {
+    //     id: `assistant-${Date.now()}`,
+    //     content: createAssistantReplyText(),
+    //     sender: 'assistant',
+    //     timestamp: new Date(),
+    //   };
       
-      setMessages(prev => [...prev, newAssistantMessage]);
-    }, Math.random() * 700 + 800);
+    //   setMessages(prev => [...prev, newAssistantMessage]);
+    // }, Math.random() * 700 + 800);
   };
+
+  const handleReceiveReply = () => {
+    setIsTyping(false);
+      
+    const newAssistantMessage = {
+      id: `assistant-${Date.now()}`,
+      content: createAssistantReplyText(),
+      sender: 'assistant',
+      timestamp: new Date(),
+    };
+      
+    setMessages(prev => [...prev, newAssistantMessage]);
+  }
 
   return (
     <div className="h-screen flex flex-col">
@@ -100,7 +113,8 @@ ${assistantReply.Is_Fraud ? "🔴 This email is likely FRAUD (Spam)!" : "🟢 Th
       <div className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <MessageInput 
-            onSendMessage={handleSendMessage} 
+            onSendMessage={handleSendMessage}
+            onReceiveReply={handleReceiveReply}
             disabled={isTyping}
             assistantReply={assistantReply}
             setAssistantReply={setAssistantReply}
